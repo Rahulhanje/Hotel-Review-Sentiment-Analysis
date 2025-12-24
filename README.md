@@ -1,44 +1,127 @@
-## Hotel Review Sentiment Analysis 
+# 🏨 Hotel Review Sentiment Analysis
 
-This project trains a sentiment classifier (Negative/Neutral/Positive) on hotel reviews using scikit-learn, and provides a small Streamlit app to predict sentiment for a single review.
+A machine learning project that classifies hotel reviews into **Negative**, **Neutral**, or **Positive** sentiments using both traditional ML (TF-IDF + Logistic Regression) and state-of-the-art transformer models (DistilBERT). Includes an interactive Streamlit web application for real-time sentiment prediction.
 
-### Setup
+## 🌟 Features
+
+- **Multiple Model Support**: Choose between scikit-learn pipeline or fine-tuned DistilBERT
+- **Interactive Web App**: Streamlit-based interface for instant sentiment prediction
+- **Comprehensive Evaluation**: Generates detailed classification reports and confusion matrices
+- **Easy to Use**: Simple command-line interface with minimal setup
+
+## 📊 Dataset
+
+The project uses hotel review data with two key columns:
+- **Review**: Text content of the review
+- **Rating**: Numerical rating (1-5 stars)
+
+### Sentiment Label Mapping
+- **Ratings 1-2** → Negative 😞
+- **Rating 3** → Neutral 😐
+- **Ratings 4-5** → Positive 😊
+
+## 🚀 Quick Start
+
+### Installation
+
 ```bash
+# Clone the repository
+git clone https://github.com/Rahulhanje/Hotel-Review-Sentiment-Analysis.git
+cd Hotel-Review-Sentiment-Analysis
+
+# Install dependencies
 pip install -r requirements.txt
 ```
 
-### Train (creates model + reports)
+### Training Models
+
+#### Option 1: Traditional ML Model (TF-IDF + Logistic Regression)
 ```bash
-python3 train.py
+python train.py
 ```
-- Model saved to `artifacts/hotel_sentiment_pipeline.joblib`
-- Reports saved to `reports/` (classification report, confusion matrix)
+- ✅ Faster training
+- ✅ Lower computational requirements
+- 📁 Model saved to `artifacts/hotel_sentiment_pipeline.joblib`
 
-### Train DistilBERT (alternative, higher-quality model)
+#### Option 2: DistilBERT Transformer Model
 ```bash
-pip install -r requirements.txt  # ensure transformers/torch installed
-python3 train_distilbert.py --csv hotel_reviews.csv --model-name distilbert-base-uncased --epochs 3 --batch-size 16
+python train_distilbert.py --csv hotel_reviews.csv --model-name distilbert-base-uncased --epochs 3 --batch-size 16
 ```
-- HF model saved to `artifacts/hotel_sentiment_distilbert/` (includes tokenizer + model)
-- Reports saved to `reports/` (classification report, confusion matrix)
+- ✅ Higher accuracy
+- ✅ Better understanding of context
+- 📁 Model saved to `artifacts/hotel_sentiment_distilbert/`
 
-### Run the app (single text input)
+Both training methods generate evaluation reports in the `reports/` directory:
+- `classification_report.txt` - Precision, Recall, F1-Score metrics
+- `confusion_matrix.csv` - Confusion matrix for error analysis
+
+### Running the Web Application
+
 ```bash
-python3 -m streamlit run app.py
+streamlit run app.py
 ```
 
-### Files
-- `train.py` — trains and evaluates the TF-IDF + Logistic Regression model
-- `train_distilbert.py` — fine-tunes DistilBERT for 3-class sentiment
-- `app.py` — Streamlit app for single review prediction (auto-loads HF model if present)
-- `hotel_reviews.csv` — data (needs columns: `Review`, `Rating`)
-- `reports/` — evaluation outputs
-- `artifacts/` — saved model
-- `requirements.txt` — dependencies
+The app will automatically detect and load the best available model (DistilBERT if available, otherwise scikit-learn pipeline).
 
-### Label mapping
-- Ratings 1–2 → Negative
-- Rating 3 → Neutral
-- Ratings 4–5 → Positive
+## 📁 Project Structure
+
+```
+├── app.py                          # Streamlit web application
+├── train.py                        # Traditional ML model training
+├── train_distilbert.py             # DistilBERT model training
+├── hotel_reviews.csv               # Main dataset
+├── hotel_reviews_small.csv         # Sample dataset for testing
+├── requirements.txt                # Python dependencies
+├── reports/                        # Model evaluation reports
+│   ├── classification_report.txt
+│   └── confusion_matrix.csv
+└── artifacts/                      # Saved models (generated after training)
+    ├── hotel_sentiment_pipeline.joblib
+    └── hotel_sentiment_distilbert/
+```
+
+## 🛠️ Technologies Used
+
+- **Python 3.x**
+- **Machine Learning**: scikit-learn, transformers (Hugging Face)
+- **Deep Learning**: PyTorch, TensorFlow
+- **NLP**: NLTK, DistilBERT
+- **Web Framework**: Streamlit
+- **Data Processing**: Pandas, NumPy
+
+## 📈 Model Performance
+
+The models are evaluated using:
+- **Accuracy**: Overall prediction correctness
+- **Precision**: Accuracy of positive predictions
+- **Recall**: Coverage of actual positive cases
+- **F1-Score**: Harmonic mean of precision and recall
+- **Confusion Matrix**: Detailed error analysis
+
+## 🤝 Contributing
+
+Contributions are welcome! Feel free to:
+- Report bugs
+- Suggest new features
+- Submit pull requests
+
+## 📄 License
+
+This project is open-source and available under the MIT License.
+
+## 👨‍💻 Author
+
+**Rahul Hanje**
+- GitHub: [@Rahulhanje](https://github.com/Rahulhanje)
+
+## 🙏 Acknowledgments
+
+- Hotel review dataset contributors
+- Hugging Face for transformer models
+- Streamlit for the amazing web framework
+
+---
+
+⭐ If you find this project helpful, please consider giving it a star!
 
 
